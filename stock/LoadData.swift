@@ -9,7 +9,12 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
+protocol LoadDataDelegate: AnyObject{
+    func showData()
+}
+
 class LoadData: Any {
+    weak var loadDataDelegate: LoadDataDelegate?
     
     let API: String = "https://www.twse.com.tw/exchangeReport/MI_INDEX?type=ALL&date="
     var nDaysDatas: [ String : [StockDatas] ] = [:]
@@ -42,7 +47,7 @@ class LoadData: Any {
         return(dateFormatter.string(from: Date(timeIntervalSinceNow: TimeInterval(-secForDays))))
     }
 
-    func sendAPI(completion : @escaping ()->()) {
+    func sendAPI() {
         AF.request("\(API)\(getDatString())", method: .get)
             .responseJSON { [self] (response) in
                 if response.value != nil {
@@ -55,15 +60,13 @@ class LoadData: Any {
                         if self.nDaysDatas["2002"] == nil{
                             print("\(getDatString()) no data")
                             dayNum += 1
-                            sendAPI() {
-                            }
+                            sendAPI()
                         }else if self.nDaysDatas["2002"]!.count < nNum{
                             print("\(getDatString()) no data")
                             dayNum += 1
-                            sendAPI() {
-                            }
+                            sendAPI()
                         }
-                        completion()
+//                        completion()
                         return
                     }
                     let dataJson = JSON(swiftyJsonVar["data9"])
@@ -91,22 +94,24 @@ class LoadData: Any {
                     
                     if self.nDaysDatas["2002"]!.count < nNum{
                         dayNum += 1
-                        sendAPI() {
-                        }
+                        sendAPI()
                     }else if self.nDaysDatas["2002"]!.count == nNum{
                         self.afterLoading()
                     }
-                    completion()
+//                    completion()
                 }else{
                     print("send fail")
-                    completion()
+//                    completion()
                 }
             }
     }
-    
+    /// Do something after loading datas
     func afterLoading(){
-        // Do something after loading datas
-        upTo5DayLine3()
+        /// calc done
+        upTo5DayLine3{
+//            self.sendLog()
+            self.loadDataDelegate?.showData()
+        }
     }
     
     /**
@@ -231,7 +236,7 @@ class LoadData: Any {
      更新，補上限制股票代碼為四位數，筆數減少至 61
      更新，用股價稍微分類一下
      */
-    func upTo5DayLine3(){
+    func upTo5DayLine3(completion : @escaping ()->()){
         print("upTo5DayLine3")
         for (num,stockDatas) in nDaysDatas{
             if stockDatas.count != nNum || num.count != 4{
@@ -285,7 +290,7 @@ class LoadData: Any {
             }
         }
         
-        sendLog()
+        completion()
     }
     
     func sendLog(){

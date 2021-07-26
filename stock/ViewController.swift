@@ -15,9 +15,44 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadData.nNum = 7
-        loadData.sendAPI() {
-            
+        loadData.loadDataDelegate = self
+        self.setActView(openOrClose: true)
+        loadData.sendAPI()
+    }
+    
+    func setLogViews(){
+        let outputLogText = """
+            === price30Low ===
+            \(loadData.price30Low)
+            === price30_50 ===
+            \(loadData.price30_50)
+            === price50_100 ===
+            \(loadData.price50_100)
+            === price100_200 ===
+            \(loadData.price100_200)
+            === price200_300 ===
+            \(loadData.price200_300)
+            === price300Up ===
+            \(loadData.price300Up)
+            """
+        
+        let outputTextView = UITextView()
+        outputTextView.text = outputLogText
+        outputTextView.textAlignment = .center
+        outputTextView.font = UIFont.systemFont(ofSize: 20)
+        view.addSubview(outputTextView)
+        outputTextView.snp.makeConstraints { makes in
+            makes.top.left.equalToSuperview().offset(20)
+            makes.bottom.right.equalToSuperview().offset(-20)
         }
+    }
+}
+
+extension ViewController: LoadDataDelegate{
+    func showData(){
+        self.setActView(openOrClose: false)
+        loadData.sendLog()
+        setLogViews()
     }
 }
 
