@@ -11,6 +11,7 @@ import SwiftyJSON
 
 protocol LoadDataDelegate: AnyObject{
     func showData()
+    func showLoadingData()
 }
 
 class LoadData: Any {
@@ -41,6 +42,8 @@ class LoadData: Any {
     var price200_300:[String] = []
     var price300Up:[String] = []
     
+    var outputLogText = ""
+    
     func getDatString() -> String{
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyyMMdd"
@@ -59,10 +62,14 @@ class LoadData: Any {
                     guard swiftyJsonVar["stat"] == "OK" else {
                         if self.nDaysDatas["2002"] == nil{
                             print("\(getDatString()) no data")
+                            outputLogText.append("\(getDatString()) no data\n")
+                            loadDataDelegate?.showLoadingData()
                             dayNum += 1
                             sendAPI()
                         }else if self.nDaysDatas["2002"]!.count < nNum{
                             print("\(getDatString()) no data")
+                            outputLogText.append("\(getDatString()) no data\n")
+                            loadDataDelegate?.showLoadingData()
                             dayNum += 1
                             sendAPI()
                         }
@@ -91,6 +98,11 @@ class LoadData: Any {
                     }
                     
                     print("\(getDatString()) 共\(dataJson.count)筆資料 編號四碼的有 \(self.nDaysDatas.count)筆")
+                    outputLogText.append("\(getDatString()) Store  \(self.nDaysDatas.count) datas\n")
+//                    DispatchQueue.main.async {
+//                        loadDataDelegate?.showLoadingData()
+//                    }
+                    loadDataDelegate?.showLoadingData()
                     
                     if self.nDaysDatas["2002"]!.count < nNum{
                         dayNum += 1
@@ -110,6 +122,7 @@ class LoadData: Any {
         /// calc done
         upTo5DayLine3{
 //            self.sendLog()
+            self.appendLog()
             self.loadDataDelegate?.showData()
         }
     }
@@ -238,6 +251,15 @@ class LoadData: Any {
      */
     func upTo5DayLine3(completion : @escaping ()->()){
         print("upTo5DayLine3")
+        outputLogText.append("""
+            
+            目標為：
+              1. 今/昨日紅 K，前天綠 K
+              2. 今日突破五日線
+              3. 昨天還在五日線下
+              4. 五日線向上
+            
+            """)
         for (num,stockDatas) in nDaysDatas{
             if stockDatas.count != nNum || num.count != 4{
                 // stockDatas Error
@@ -293,18 +315,35 @@ class LoadData: Any {
         completion()
     }
     
-    func sendLog(){
-        print("=== price30Low ===")
-        print(price30Low)
-        print("=== price30_50 ===")
-        print(price30_50)
-        print("=== price50_100 ===")
-        print(price50_100)
-        print("=== price100_200 ===")
-        print(price100_200)
-        print("=== price200_300 ===")
-        print(price200_300)
-        print("=== price300Up ===")
-        print(price300Up)
+    func appendLog(){
+        outputLogText.append("""
+            === price30Low ===
+            \(price30Low)
+            === price30_50 ===
+            \(price30_50)
+            === price50_100 ===
+            \(price50_100)
+            === price100_200 ===
+            \(price100_200)
+            === price200_300 ===
+            \(price200_300)
+            === price300Up ===
+            \(price300Up)
+            """)
     }
+    
+//    func sendLog(){
+//        print("=== price30Low ===")
+//        print(price30Low)
+//        print("=== price30_50 ===")
+//        print(price30_50)
+//        print("=== price50_100 ===")
+//        print(price50_100)
+//        print("=== price100_200 ===")
+//        print(price100_200)
+//        print("=== price200_300 ===")
+//        print(price200_300)
+//        print("=== price300Up ===")
+//        print(price300Up)
+//    }
 }

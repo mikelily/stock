@@ -11,9 +11,11 @@ import SnapKit
 class ViewController: UIViewController {
     
     let loadData = LoadData()
+    let outputTextView = UITextView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setLogViews()
 //        loadData.nNum = 6
         loadData.loadDataDelegate = self
         self.setActView(openOrClose: true)
@@ -21,31 +23,32 @@ class ViewController: UIViewController {
     }
     
     func setLogViews(){
-        let outputLogText = """
-            目標為：
-              1. 今/昨日紅 K，前天綠 K
-              2. 今日突破五日線
-              3. 昨天還在五日線下
-              4. 五日線向上
-            
-            === price30Low ===
-            \(loadData.price30Low)
-            === price30_50 ===
-            \(loadData.price30_50)
-            === price50_100 ===
-            \(loadData.price50_100)
-            === price100_200 ===
-            \(loadData.price100_200)
-            === price200_300 ===
-            \(loadData.price200_300)
-            === price300Up ===
-            \(loadData.price300Up)
-            """
+//        let outputLogText = """
+//            目標為：
+//              1. 今/昨日紅 K，前天綠 K
+//              2. 今日突破五日線
+//              3. 昨天還在五日線下
+//              4. 五日線向上
+//
+//            === price30Low ===
+//            \(loadData.price30Low)
+//            === price30_50 ===
+//            \(loadData.price30_50)
+//            === price50_100 ===
+//            \(loadData.price50_100)
+//            === price100_200 ===
+//            \(loadData.price100_200)
+//            === price200_300 ===
+//            \(loadData.price200_300)
+//            === price300Up ===
+//            \(loadData.price300Up)
+//            """
         
-        let outputTextView = UITextView()
-        outputTextView.text = outputLogText
+//        let outputTextView = UITextView()
+//        outputTextView.text = outputLogText
+//        outputTextView.text = loadData.outputLogText
 //        outputTextView.textAlignment = .center
-        outputTextView.font = UIFont.systemFont(ofSize: 20)
+        outputTextView.font = UIFont.systemFont(ofSize: 18)
         view.addSubview(outputTextView)
         outputTextView.snp.makeConstraints { makes in
             makes.top.left.equalToSuperview().offset(20)
@@ -57,8 +60,13 @@ class ViewController: UIViewController {
 extension ViewController: LoadDataDelegate{
     func showData(){
         self.setActView(openOrClose: false)
-        loadData.sendLog()
+//        loadData.sendLog()
         setLogViews()
+        outputTextView.text = loadData.outputLogText
+    }
+    
+    func showLoadingData() {
+        outputTextView.text = loadData.outputLogText
     }
 }
 
