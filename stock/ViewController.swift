@@ -14,7 +14,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadData.nNum = 7
+//        loadData.nNum = 6
         loadData.loadDataDelegate = self
         self.setActView(openOrClose: true)
         loadData.sendAPI()
@@ -22,6 +22,12 @@ class ViewController: UIViewController {
     
     func setLogViews(){
         let outputLogText = """
+            目標為：
+              1. 今/昨日紅 K，前天綠 K
+              2. 今日突破五日線
+              3. 昨天還在五日線下
+              4. 五日線向上
+            
             === price30Low ===
             \(loadData.price30Low)
             === price30_50 ===
@@ -38,7 +44,7 @@ class ViewController: UIViewController {
         
         let outputTextView = UITextView()
         outputTextView.text = outputLogText
-        outputTextView.textAlignment = .center
+//        outputTextView.textAlignment = .center
         outputTextView.font = UIFont.systemFont(ofSize: 20)
         view.addSubview(outputTextView)
         outputTextView.snp.makeConstraints { makes in
