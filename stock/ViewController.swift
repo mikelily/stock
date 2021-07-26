@@ -24,7 +24,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         sendAPI(num: dayNum) {
-            print("Day:\(self.dayNum - 1) save done")
         }
     }
     
@@ -46,11 +45,11 @@ class ViewController: UIViewController {
                     */
                     guard swiftyJsonVar["stat"] == "OK" else {
                         if self.sixDaysDatas["2002"] == nil{
-                            print("當日交易中")
+                            print("(\(getDatString())) no data")
                             sendAPI(num: dayNum + 1) {
                             }
                         }else if self.sixDaysDatas["2002"]!.count < 6{
-                            print("本日休市 or 本日尚未結算 (\(getDatString()))")
+                            print("(\(getDatString())) no data")
                             sendAPI(num: dayNum + 1) {
                             }
                         }
@@ -58,30 +57,30 @@ class ViewController: UIViewController {
                         return
                     }
                     let dataJson = JSON(swiftyJsonVar["data9"])
-                    print("\(getDatString())抓到\(dataJson.count)筆資料")
                     let dataArray = dataJson.arrayObject
                     
                     for data in dataArray!{
                         let singleArray = JSON(data)
                         
-                        var tempStockDatas: StockDatas = StockDatas()
-                        tempStockDatas.name = singleArray[1].string
-                        tempStockDatas.openPrice = Float(singleArray[5].string!)
-                        tempStockDatas.highPrice = Float(singleArray[6].string!)
-                        tempStockDatas.lowPrice = Float(singleArray[7].string!)
-                        tempStockDatas.endPrice = Float(singleArray[8].string!)
-                        
-                        var stockDatas: [StockDatas] = sixDaysDatas[singleArray[0].string!] ?? []
-                        stockDatas.append(tempStockDatas)
-                        sixDaysDatas[singleArray[0].string!] = stockDatas
+                        // 過濾編號四碼以外的，加快處理速度
+                        if singleArray[0].string!.count == 4{
+                            var tempStockDatas: StockDatas = StockDatas()
+                            tempStockDatas.name = singleArray[1].string
+                            tempStockDatas.openPrice = Float(singleArray[5].string!)
+                            tempStockDatas.highPrice = Float(singleArray[6].string!)
+                            tempStockDatas.lowPrice = Float(singleArray[7].string!)
+                            tempStockDatas.endPrice = Float(singleArray[8].string!)
+                            
+                            var stockDatas: [StockDatas] = sixDaysDatas[singleArray[0].string!] ?? []
+                            stockDatas.append(tempStockDatas)
+                            sixDaysDatas[singleArray[0].string!] = stockDatas
+                        }
                     }
+                    
+                    print("\(getDatString()) 共\(dataJson.count)筆資料 編號四碼的有 \(self.sixDaysDatas.count)筆")
                     
                     if self.sixDaysDatas["2002"]!.count < 6{
                         sendAPI(num: dayNum + 1) {
-                            print("Day:\(self.dayNum - 1) save done")
-                            if self.sixDaysDatas["2002"]!.count == 6{
-                                self.afterLoading()
-                            }
                         }
                     }else if self.sixDaysDatas["2002"]!.count == 6{
                         self.afterLoading()
