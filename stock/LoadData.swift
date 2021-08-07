@@ -19,7 +19,7 @@ class LoadData: Any {
     
     let API: String = "https://www.twse.com.tw/exchangeReport/MI_INDEX?type=ALL&date="
     var nDaysDatas: [ String : [StockDatas] ] = [:]
-    /// 要抓總共幾日的資料
+    /// 要抓總共幾日的資料（最少六天）
     var nNum: Int = 6{
         didSet{
             // 防呆，For 兩日五日線
@@ -29,6 +29,7 @@ class LoadData: Any {
         }
     }
     var secForDays: Int = 0
+    /// 可以設定從第幾天開始抓
     var dayNum: Int = 1{
         didSet{
             secForDays = (dayNum - 1) * 60 * 60 * 24
@@ -58,22 +59,12 @@ class LoadData: Any {
                     /**
                      OK : 有抓到
                      很抱歉，沒有符合條件的資料! : 休市 or 本日尚未結算
-                    */
+                     */
                     guard swiftyJsonVar["stat"] == "OK" else {
-                        if self.nDaysDatas["2002"] == nil{
-                            print("\(getDatString()) no data")
-                            outputLogText.append("\(getDatString()) no data\n")
-                            loadDataDelegate?.showLoadingData()
-                            dayNum += 1
-                            sendAPI()
-                        }else if self.nDaysDatas["2002"]!.count < nNum{
-                            print("\(getDatString()) no data")
-                            outputLogText.append("\(getDatString()) no data\n")
-                            loadDataDelegate?.showLoadingData()
-                            dayNum += 1
-                            sendAPI()
-                        }
-//                        completion()
+                        outputLogText.append("\(getDatString()) no data\n")
+                        loadDataDelegate?.showLoadingData()
+                        dayNum += 1
+                        sendAPI()
                         return
                     }
                     let dataJson = JSON(swiftyJsonVar["data9"])
@@ -99,9 +90,6 @@ class LoadData: Any {
                     
                     print("\(getDatString()) 共\(dataJson.count)筆資料 編號四碼的有 \(self.nDaysDatas.count)筆")
                     outputLogText.append("\(getDatString()) Store  \(self.nDaysDatas.count) datas\n")
-//                    DispatchQueue.main.async {
-//                        loadDataDelegate?.showLoadingData()
-//                    }
                     loadDataDelegate?.showLoadingData()
                     
                     if self.nDaysDatas["2002"]!.count < nNum{
@@ -110,10 +98,8 @@ class LoadData: Any {
                     }else if self.nDaysDatas["2002"]!.count == nNum{
                         self.afterLoading()
                     }
-//                    completion()
                 }else{
                     print("send fail")
-//                    completion()
                 }
             }
     }
@@ -121,7 +107,6 @@ class LoadData: Any {
     func afterLoading(){
         /// calc done
         upTo5DayLine3{
-//            self.sendLog()
             self.appendLog()
             self.loadDataDelegate?.showData()
         }
@@ -331,19 +316,4 @@ class LoadData: Any {
             \(price300Up)
             """)
     }
-    
-//    func sendLog(){
-//        print("=== price30Low ===")
-//        print(price30Low)
-//        print("=== price30_50 ===")
-//        print(price30_50)
-//        print("=== price50_100 ===")
-//        print(price50_100)
-//        print("=== price100_200 ===")
-//        print(price100_200)
-//        print("=== price200_300 ===")
-//        print(price200_300)
-//        print("=== price300Up ===")
-//        print(price300Up)
-//    }
 }
