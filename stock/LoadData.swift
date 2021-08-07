@@ -44,6 +44,7 @@ class LoadData: Any {
     var price300Up:[String] = []
     
     var outputLogText = ""
+    var systemLogText = ""
     
     func getDatString() -> String{
         let dateFormatter = DateFormatter()
@@ -61,7 +62,10 @@ class LoadData: Any {
                      很抱歉，沒有符合條件的資料! : 休市 or 本日尚未結算
                      */
                     guard swiftyJsonVar["stat"] == "OK" else {
-                        outputLogText.append("\(getDatString()) no data\n")
+                        if systemLogText != ""{
+                            systemLogText.append("\n")
+                        }
+                        systemLogText.append("\(getDatString()) no data")
                         loadDataDelegate?.showLoadingData()
                         dayNum += 1
                         sendAPI()
@@ -88,8 +92,14 @@ class LoadData: Any {
                         }
                     }
                     
-                    print("\(getDatString()) 共\(dataJson.count)筆資料 編號四碼的有 \(self.nDaysDatas.count)筆")
-                    outputLogText.append("\(getDatString()) Store  \(self.nDaysDatas.count) datas\n")
+                    if systemLogText != ""{
+                        systemLogText.append("\n")
+                    }
+                    systemLogText.append("\(getDatString()) Store  \(self.nDaysDatas.count) datas")
+//                    systemLogText = """
+//                        *** Loading Date ***
+//                        \(getDatString()) Store \(self.nDaysDatas.count) datas
+//                        """
                     loadDataDelegate?.showLoadingData()
                     
                     if self.nDaysDatas["2002"]!.count < nNum{
@@ -105,6 +115,8 @@ class LoadData: Any {
     }
     /// Do something after loading datas
     func afterLoading(){
+        systemLogText.append("\n=== Loading Finished ===")
+        loadDataDelegate?.showLoadingData()
         /// calc done
         upTo5DayLine3{
             self.appendLog()
@@ -256,7 +268,7 @@ class LoadData: Any {
                     stockDatas[3].kType == nil ||
                     stockDatas[4].kType == nil ||
                     stockDatas[5].kType == nil {
-                    // kType Error
+                    // kType Error 防呆
                 }else{
                     // first condition ok
                     if stockDatas[0].kType == .red && stockDatas[1].kType == .red &&
