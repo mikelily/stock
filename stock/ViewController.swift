@@ -18,17 +18,39 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         setSubViews()
         loadData.loadDataDelegate = self
-        self.setActView(openOrClose: true)
-        loadData.sendAPI()
+//        self.setActView(openOrClose: true)
+//        loadData.sendAPI()
     }
     
     func setSubViews(){
+        let sendView = UIView()
+        sendView.backgroundColor = .yellow
+        view.addSubview(sendView)
+        sendView.snp.makeConstraints { makes in
+            makes.top.equalToSuperview().offset(50)
+            makes.left.equalToSuperview().offset(30)
+            makes.right.equalToSuperview().offset(-30)
+            makes.height.equalTo(50)
+        }
+        sendView.addTapGestureRecognizer {
+            self.setActView(openOrClose: true)
+            self.loadData.sendAPI()
+        }
+        let sendLabel = UILabel()
+        sendLabel.text = "Send"
+        sendLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        sendView.addSubview(sendLabel)
+        sendLabel.snp.makeConstraints { makes in
+            makes.center.equalToSuperview()
+        }
+        
         outputTextView.isSelectable = false
         outputTextView.isEditable = false
         outputTextView.font = UIFont.systemFont(ofSize: 18)
         view.addSubview(outputTextView)
         outputTextView.snp.makeConstraints { makes in
-            makes.top.left.equalToSuperview().offset(30)
+            makes.top.equalTo(sendView.snp.bottom).offset(10)
+            makes.left.equalToSuperview().offset(30)
             makes.bottom.right.equalToSuperview().offset(-30)
         }
         

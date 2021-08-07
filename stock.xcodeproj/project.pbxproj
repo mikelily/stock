@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A3FF6B612A46011008A2824E /* Pods_stock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A734CCD04C5D80CACDA227A7 /* Pods_stock.framework */; };
+		F5B33F4326BF036F0078802A /* addTapGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B33F4226BF036F0078802A /* addTapGestureRecognizer.swift */; };
 		F5D3E0AA26A86FC000638E27 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D3E0A926A86FC000638E27 /* AppDelegate.swift */; };
 		F5D3E0AC26A86FC000638E27 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D3E0AB26A86FC000638E27 /* SceneDelegate.swift */; };
 		F5D3E0AE26A86FC000638E27 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D3E0AD26A86FC000638E27 /* ViewController.swift */; };
@@ -23,6 +24,7 @@
 		326CB660E73B64D398F6B197 /* Pods-stock.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-stock.release.xcconfig"; path = "Target Support Files/Pods-stock/Pods-stock.release.xcconfig"; sourceTree = "<group>"; };
 		838A6B791DBE806B17A50359 /* Pods-stock.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-stock.debug.xcconfig"; path = "Target Support Files/Pods-stock/Pods-stock.debug.xcconfig"; sourceTree = "<group>"; };
 		A734CCD04C5D80CACDA227A7 /* Pods_stock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_stock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F5B33F4226BF036F0078802A /* addTapGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addTapGestureRecognizer.swift; sourceTree = "<group>"; };
 		F5D3E0A626A86FC000638E27 /* stock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = stock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5D3E0A926A86FC000638E27 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F5D3E0AB26A86FC000638E27 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -65,6 +67,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		F5B33F3F26BF03350078802A /* extension */ = {
+			isa = PBXGroup;
+			children = (
+				F5ECA59826AEEC480073D579 /* loadingView.swift */,
+				F5B33F4226BF036F0078802A /* addTapGestureRecognizer.swift */,
+			);
+			path = extension;
+			sourceTree = "<group>";
+		};
 		F5D3E09D26A86FC000638E27 = {
 			isa = PBXGroup;
 			children = (
@@ -86,6 +97,7 @@
 		F5D3E0A826A86FC000638E27 /* stock */ = {
 			isa = PBXGroup;
 			children = (
+				F5B33F3F26BF03350078802A /* extension */,
 				F5D3E0A926A86FC000638E27 /* AppDelegate.swift */,
 				F5D3E0AB26A86FC000638E27 /* SceneDelegate.swift */,
 				F5D3E0AD26A86FC000638E27 /* ViewController.swift */,
@@ -95,7 +107,6 @@
 				F5D3E0B726A86FC200638E27 /* Info.plist */,
 				F5D3E0BD26A8754B00638E27 /* stockDatas.swift */,
 				F5ECA59626AEE15B0073D579 /* LoadData.swift */,
-				F5ECA59826AEEC480073D579 /* loadingView.swift */,
 			);
 			path = stock;
 			sourceTree = "<group>";
@@ -214,6 +225,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F5B33F4326BF036F0078802A /* addTapGestureRecognizer.swift in Sources */,
 				F5D3E0BE26A8754B00638E27 /* stockDatas.swift in Sources */,
 				F5ECA59726AEE15B0073D579 /* LoadData.swift in Sources */,
 				F5D3E0AE26A86FC000638E27 /* ViewController.swift in Sources */,

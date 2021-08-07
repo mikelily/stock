@@ -249,7 +249,6 @@ class LoadData: Any {
     func upTo5DayLine3(completion : @escaping ()->()){
         print("upTo5DayLine3")
         outputLogText.append("""
-            
             目標為：
               1. 今/昨日紅 K，前天綠 K
               2. 今日突破五日線
