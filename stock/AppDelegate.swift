@@ -9,13 +9,26 @@ import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    
+//    //手动添加window属性
+//    var window: UIWindow?
+//    
+//    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+//        self.window = UIWindow(frame:UIScreen.main.bounds)
+//        self.window!.backgroundColor = UIColor.white
+//        //设置root
+////        let rootVC = UIViewController()
+//        let rootVC = CustomTabBarViewController()
+//        self.window!.rootViewController = rootVC
+//        self.window!.makeKeyAndVisible()
+//        return true
+//    }
 
 
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        return true
-    }
+//    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+//        // Override point for customization after application launch.
+//        return true
+//    }
 
     // MARK: UISceneSession Lifecycle
 
