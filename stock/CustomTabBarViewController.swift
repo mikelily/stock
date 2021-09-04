@@ -10,17 +10,19 @@ import UIKit
 class CustomTabBarViewController: UITabBarController {
     
     let tickVC = TickViewController()
-    let vc = ViewController()
+    let findVC = FindViewController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setInitUI()
     }
     
     func setInitUI(){
-        vc.tabBarItem = UITabBarItem(title: "1", image: UIImage(systemName: "network"), selectedImage: UIImage(systemName: "network"))
-        tickVC.tabBarItem = UITabBarItem(title: "2", image: UIImage(systemName: "pencil"), selectedImage: UIImage(systemName: "pencil"))
-        self.viewControllers = [vc, tickVC]
+        tickVC.tabBarItem = UITabBarItem(title: "Tick", image: UIImage(systemName: "pencil"), selectedImage: UIImage(systemName: "pencil"))
+        findVC.tabBarItem = UITabBarItem(title: "Find", image: UIImage(systemName: "network"), selectedImage: UIImage(systemName: "network"))
+        
+        self.viewControllers = [tickVC, findVC]
     }
 
 }

@@ -131,7 +131,7 @@ class TickViewController: UIViewController {
 //        }
         let num = resultArray.count / 3
         
-        let blackView = UIView()
+        let valueView = UIView()
         let upView = UIView()
         let downView = UIView()
         
@@ -161,22 +161,30 @@ class TickViewController: UIViewController {
             makes.center.equalToSuperview()
         }
         
-        view.addSubview(blackView)
-        blackView.backgroundColor = .black // for test
-        blackView.snp.makeConstraints { makes in
+        view.addSubview(valueView)
+        valueView.backgroundColor = .black // for test
+        valueView.snp.makeConstraints { makes in
             makes.width.top.height.equalTo(upView)
 //            makes.top.equalTo(targetTF.snp.bottom).offset(40)
-            makes.right.equalTo(upView.snp.left)
+            makes.right.equalTo(upView.snp.left).offset(-5)
 //            makes.height.equalTo(40*(num+1))
         }
         
-        let blackTitleView = UIView()
-        blackView.addSubview(blackTitleView)
-        blackTitleView.backgroundColor = .white
-        blackTitleView.snp.makeConstraints { makes in
+        let valueTitleView = UIView()
+        valueView.addSubview(valueTitleView)
+        valueTitleView.backgroundColor = .white
+        valueTitleView.snp.makeConstraints { makes in
             makes.top.left.equalToSuperview().offset(1)
             makes.right.equalToSuperview().offset(-1)
             makes.height.equalTo(40)
+        }
+        
+        let valueLabel = UILabel()
+        valueLabel.text = "價格"
+        valueLabel.textColor = .black
+        valueTitleView.addSubview(valueLabel)
+        valueLabel.snp.makeConstraints { makes in
+            makes.center.equalToSuperview()
         }
         
         view.addSubview(downView)
@@ -184,7 +192,7 @@ class TickViewController: UIViewController {
         downView.snp.makeConstraints { makes in
             makes.width.top.height.equalTo(upView)
 //            makes.top.equalTo(targetTF.snp.bottom).offset(40)
-            makes.left.equalTo(upView.snp.right)
+            makes.left.equalTo(upView.snp.right).offset(5)
         }
         
         let downTitleView = UIView()
@@ -217,15 +225,16 @@ class TickViewController: UIViewController {
                 }
                 
                 let bkView = UIView()
-                blackView.addSubview(bkView)
+                valueView.addSubview(bkView)
                 bkView.backgroundColor = .white
                 let i = index/3
                 bkView.snp.makeConstraints { makes in
-                    makes.left.width.height.equalTo(blackTitleView)
+                    makes.left.width.height.equalTo(valueTitleView)
                     makes.top.equalToSuperview().offset((i+1)*(40+1)+1)
                 }
                 
                 let valueLabel = UILabel()
+                valueLabel.textColor = .black
                 if i == targetIndex{
                     valueLabel.font = UIFont.boldSystemFont(ofSize: 20)
                 }
@@ -245,6 +254,7 @@ class TickViewController: UIViewController {
                 }
                 
                 let valueLabel = UILabel()
+                valueLabel.textColor = .black
                 if i == targetIndex{
                     valueLabel.font = UIFont.boldSystemFont(ofSize: 18)
                 }
@@ -264,6 +274,7 @@ class TickViewController: UIViewController {
                 }
                 
                 let valueLabel = UILabel()
+                valueLabel.textColor = .black
                 if i == targetIndex{
                     valueLabel.font = UIFont.boldSystemFont(ofSize: 18)
                 }
